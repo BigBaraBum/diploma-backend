@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const auth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
+const { errorLogger, requestLogger } = require('./middlewares/logger');
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -17,12 +18,15 @@ mongoose.connect('mongodb://localhost:27017/newsexplorerdb', {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(requestLogger);
 
 // todo validation
 app.post('/signin', login);
 app.post('/signup', createUser);
 
 app.use(auth);
+
+app.use(errorLogger);
 
 app.listen(PORT, () => {
 
