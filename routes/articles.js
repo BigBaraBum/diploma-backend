@@ -1,12 +1,12 @@
 const router = require('express').Router();
 
-// todo controller import
+const { createArticle, deleteArticleById, getArticlesByOwner } = require('../controllers/articles');
 
 // todo validation
-router.get('/');
+router.get('/', getArticlesByOwner);
 
-router.post('/');
+router.post('/', createArticle);
 
-router.delete('/:articleId');
+router.delete('/:articleId', deleteArticleById);
 
 module.exports = router;
