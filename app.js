@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const auth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
 const { errorLogger, requestLogger } = require('./middlewares/logger');
+const users = require('./routes/users');
+const articles = require('./routes/articles');
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -25,6 +27,9 @@ app.post('/signin', login);
 app.post('/signup', createUser);
 
 app.use(auth);
+
+app.use('/users', users);
+app.use('/articles', articles);
 
 app.use(errorLogger);
 
