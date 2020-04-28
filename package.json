@@ -1,0 +1,19 @@
+{
+  "name": "diploma-backend",
+  "version": "1.0.0",
+  "description": "Yandex Praktikum diploma backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BigBaraBum/diploma-backend.git"
+  },
+  "author": "Nikita Inkin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BigBaraBum/diploma-backend/issues"
+  },
+  "homepage": "https://github.com/BigBaraBum/diploma-backend#readme"
+}
