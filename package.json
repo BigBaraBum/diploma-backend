@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/BigBaraBum/diploma-backend/issues"
   },
-  "homepage": "https://github.com/BigBaraBum/diploma-backend#readme"
+  "homepage": "https://github.com/BigBaraBum/diploma-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
