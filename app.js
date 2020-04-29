@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const auth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
 const { errorLogger, requestLogger } = require('./middlewares/logger');
+const { signinValidator, signupValidator } = require('./middlewares/validation');
 const users = require('./routes/users');
 const articles = require('./routes/articles');
 
@@ -24,9 +25,8 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(requestLogger);
 
-// todo validation
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signin', signinValidator, login);
+app.post('/signup', signupValidator, createUser);
 
 app.use(auth);
 

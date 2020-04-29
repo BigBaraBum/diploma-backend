@@ -1,12 +1,12 @@
 const router = require('express').Router();
 
 const { createArticle, deleteArticleById, getArticlesByOwner } = require('../controllers/articles');
+const { createArticleValidator, articleIdValidator } = require('../middlewares/validation');
 
-// todo validation
 router.get('/', getArticlesByOwner);
 
-router.post('/', createArticle);
+router.post('/', createArticleValidator, createArticle);
 
-router.delete('/:articleId', deleteArticleById);
+router.delete('/:articleId', articleIdValidator, deleteArticleById);
 
 module.exports = router;
