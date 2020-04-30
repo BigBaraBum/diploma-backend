@@ -1,4 +1,5 @@
 const Article = require('../models/article');
+const CustomError = require('../errors/customError');
 
 module.exports.createArticle = (req, res, next) => {
   const {
@@ -8,11 +9,21 @@ module.exports.createArticle = (req, res, next) => {
   Article.create({
     keyword, title, text, date, source, link, image, owner,
   })
-    .then((article) => res.send({ data: article }))
+    .then((article) => res.send({
+      data: {
+        keyword: article.keyword,
+        title: article.title,
+        text: article.text,
+        date: article.date,
+        source: article.source,
+        link: article.link,
+        image: article.image,
+      },
+    }))
     .catch(next);
 };
 module.exports.deleteArticleById = (req, res, next) => {
-  Article.findById(req.params.articleId)
+  Article.findById(req.params.articleId).select('+owner')
     .then((article) => {
       if (article) {
         if (article.owner.toString() === req.user._id) {
@@ -22,10 +33,10 @@ module.exports.deleteArticleById = (req, res, next) => {
             })
             .catch(next);
         } else {
-          throw new Error('no rights to delete');
+          throw new CustomError('Нет прав для удаления этой статьи', 401);
         }
       } else {
-        throw new Error('article not found');
+        throw new CustomError('Статья не найдена', 404);
       }
     })
     .catch(next);
