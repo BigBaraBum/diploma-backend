@@ -3,12 +3,14 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const { errors } = require('celebrate');
 const auth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
 const { errorLogger, requestLogger } = require('./middlewares/logger');
 const { signinValidator, signupValidator } = require('./middlewares/validation');
 const users = require('./routes/users');
 const articles = require('./routes/articles');
+const { errorHandler } = require('./middlewares/errorHandler');
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -34,6 +36,8 @@ app.use('/users', users);
 app.use('/articles', articles);
 
 app.use(errorLogger);
+app.use(errors());
+app.use(errorHandler);
 
 app.listen(PORT, () => {
 
