@@ -29,12 +29,12 @@ module.exports.login = (req, res, next) => {
 module.exports.getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
-      if (user) {
-        res.send({ data: user });
-      } else {
-      // todo
-        throw new Error('user not found');
-      }
+      res.send({
+        data: {
+          name: user.name,
+          email: user.email,
+        },
+      });
     })
     .catch(next);
 };
