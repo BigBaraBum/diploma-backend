@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -12,10 +13,11 @@ const users = require('./routes/users');
 const articles = require('./routes/articles');
 const { errorHandler } = require('./middlewares/errorHandler');
 
-const app = express();
-const { PORT = 3000 } = process.env;
+const { NODE_ENV, MONGO_ADR, PORT = 3000 } = process.env;
 
-mongoose.connect('mongodb://localhost:27017/newsexplorerdb', {
+const app = express();
+
+mongoose.connect(NODE_ENV === 'production' ? MONGO_ADR : 'mongodb://localhost:27017/newsexplorerdb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -34,6 +36,10 @@ app.use(auth);
 
 app.use('/users', users);
 app.use('/articles', articles);
+
+app.use('/:any', (req, res) => {
+  res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
+});
 
 app.use(errorLogger);
 app.use(errors());
