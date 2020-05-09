@@ -9,6 +9,7 @@ const auth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
 const { errorLogger, requestLogger } = require('./middlewares/logger');
 const { signinValidator, signupValidator } = require('./middlewares/validation');
+const { limiter } = require('./middlewares/rateLimiter');
 const users = require('./routes/users');
 const articles = require('./routes/articles');
 const { errorHandler } = require('./middlewares/errorHandler');
@@ -23,6 +24,7 @@ mongoose.connect(NODE_ENV === 'production' ? MONGO_ADR : 'mongodb://localhost:27
   useFindAndModify: false,
 });
 
+app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
